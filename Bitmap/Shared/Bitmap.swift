@@ -56,8 +56,7 @@ public class Bitmap {
 	}
 	
 	/// Bitmap -> CGImage
-	public func cgImage(shouldInterpolate: Bool = false) -> CGImage {
-		print(context.makeImage()!.shouldInterpolate)
+	public func cgImage() -> CGImage {
 		return context.makeImage()!
 	}
 	
