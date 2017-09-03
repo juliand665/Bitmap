@@ -63,10 +63,10 @@ public struct Pixel {
 	- Parameter alpha: the alpha component, from 0 to 1 — defaults to 1 (opaque)
 	*/
 	public init<F: BinaryFloatingPoint>(red: F, green: F, blue: F, alpha: F = 1) {
-		self.init(red:     red.clamped().asPixelComponent,
-		          green: green.clamped().asPixelComponent,
-		          blue:   blue.clamped().asPixelComponent,
-		          alpha: alpha.clamped().asPixelComponent)
+		self.init(cRed:    red.clamped(),
+		          green: green.clamped(),
+		          blue:   blue.clamped(),
+		          alpha: alpha.clamped())
 	}
 	
 	/**
@@ -83,10 +83,18 @@ public struct Pixel {
 	*/
 	public init<F: BinaryFloatingPoint>(red: F, green: F, blue: F, premultiplyingWithAlpha alpha: F) {
 		let clampedAlpha = alpha.clamped()
-		self.init(red:   clampedAlpha * red.clamped(),
+		self.init(cRed:  clampedAlpha * red.clamped(),
 		          green: clampedAlpha * green.clamped(),
 		          blue:  clampedAlpha * blue.clamped(),
 		          alpha: clampedAlpha)
+	}
+	
+	/// initialize from already clamped values
+	private init<F: BinaryFloatingPoint>(cRed red: F, green: F, blue: F, alpha: F) {
+		self.init(red:     red.asPixelComponent,
+		          green: green.asPixelComponent,
+		          blue:   blue.asPixelComponent,
+		          alpha: alpha.asPixelComponent)
 	}
 }
 
