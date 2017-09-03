@@ -72,7 +72,7 @@ public class Bitmap {
 	public convenience init?(from cgImage: CGImage) {
 		self.init(width: cgImage.width, height: cgImage.height)
 		
-		context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+		context.draw(cgImage, in: CGRect(origin: .zero, size: size))
 	}
 	
 	/**

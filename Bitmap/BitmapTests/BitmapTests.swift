@@ -11,24 +11,37 @@ import AppKit
 @testable import Bitmap
 
 class BitmapTests: XCTestCase {
+	/**
+	Tests symmetry of encoding/decoding in the following way:
 	
-	/// Creates a trippy bitmap and writes it to your desktop
-	func testCreativeWriting() throws {
-		let width = 512
-		let height = 386
+	1. Creates a random bitmap
+	2. Encodes it into a `CGImage`
+	3. Creates a new bitmap from the image
+	4. Makes sure the two bitmaps are equal
+	*/
+	func testSymmetry() {
+		let bitmap = generateRandom()
+		let encoded = bitmap.cgImage()
+		let decoded = Bitmap(from: encoded)!
+		XCTAssertEqual(bitmap.pixels, decoded.pixels)
+	}
+	
+	/// generates a random bitmap
+	func generateRandom(width: Int = 512, height: Int = 384) -> Bitmap {
 		let bitmap = Bitmap(width: width, height: height)
 		for y in 0..<height {
 			for x in 0..<width {
-				bitmap[x, y] = Pixel(red: x % 2 == 0 ? 255 : 0,
-				                     green: x % 2 == 0 ? 0 : 255,
-				                     blue: y % 2 == 0 ? 0 : 255)
+				bitmap[x, y] = randomPixel()
 			}
 		}
-		let rep = NSBitmapImageRep(cgImage: bitmap.cgImage())
-		let data = rep.representation(using: .png, properties: [:])
-		let path = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true).first!
-		let url = URL(fileURLWithPath: "bitmap.png", relativeTo: URL(fileURLWithPath: path))
-		print(url.absoluteString)
-		try data!.write(to: url)
+		return bitmap
+	}
+	
+	func randomPixel(withAlpha alpha: Double? = nil) -> Pixel {
+		func randomDouble() -> Double {
+			return Double(arc4random()) / Double(UInt32.max)
+		}
+		
+		return Pixel(red: randomDouble(), green: randomDouble(), blue: randomDouble(), premultiplyingWithAlpha: alpha ?? randomDouble())
 	}
 }

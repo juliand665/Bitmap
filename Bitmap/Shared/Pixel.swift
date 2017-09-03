@@ -84,7 +84,16 @@ public struct Pixel {
 		self.init(red: (clamped * red.clamped()).uInt8,
 		          green: (clamped * green.clamped()).uInt8,
 		          blue: (clamped * blue.clamped()).uInt8,
-		          alpha: alpha.uInt8)
+		          alpha: clamped.uInt8)
+	}
+}
+
+extension Pixel: Equatable {
+	public static func ==(lhs: Pixel, rhs: Pixel) -> Bool {
+		return lhs.red == rhs.red
+			&& lhs.green == rhs.green
+			&& lhs.blue == rhs.blue
+			&& lhs.alpha == rhs.alpha
 	}
 }
 
