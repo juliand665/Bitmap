@@ -2,16 +2,13 @@ import Cocoa
 import Bitmap
 import PlaygroundSupport
 
-public typealias BitmapFormula = (_ x: Int, _ y: Int) -> Pixel
-
-public func generateBitmap(width: Int = 128, height: Int = 128, using formula: BitmapFormula) -> Bitmap {
-	let bitmap = Bitmap(width: width, height: height)
-	for y in 0..<height {
-		for x in 0..<width {
-			bitmap[x, y] = formula(x, y)
-		}
-	}
-	return bitmap
+public func saveImageToDesktop(_ image: CGImage, named name: String) throws {
+	let rep = NSBitmapImageRep(cgImage: image)
+	let data = rep.representation(using: .png, properties: [:])
+	let path = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true).first!
+	let url = URL(fileURLWithPath: name, relativeTo: URL(fileURLWithPath: path))
+	print("Saving image as", url.absoluteString)
+	try data!.write(to: url)
 }
 
 public func generateMoiré(width: Int = 128, height: Int = 128) -> Bitmap {
