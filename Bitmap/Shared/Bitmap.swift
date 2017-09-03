@@ -12,7 +12,7 @@ import CoreGraphics
 public class Bitmap {
 	static let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
 	static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
-	static let componentSize = MemoryLayout<UInt8>.size
+	static let componentSize = MemoryLayout<Pixel.Component>.size
 	static let pixelSize = MemoryLayout<Pixel>.size
 	
 	/// the bitmap's underlying data

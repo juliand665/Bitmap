@@ -8,6 +8,8 @@
 import CoreGraphics
 
 public struct Pixel {
+	public typealias Component = UInt8
+	
 	/// fully transparent
 	public static let clear = Pixel(red: 0, green: 0, blue: 0, alpha: 0)
 	
@@ -22,18 +24,18 @@ public struct Pixel {
 	public static let magenta = Pixel(red: 255, green:   0, blue: 255)
 	
 	/// the red component, out of 255
-	public var red: UInt8
+	public var red: Component
 	
 	/// the green component, out of 255
-	public var green: UInt8
+	public var green: Component
 	
 	/// the blue component, out of 255
-	public var blue: UInt8
+	public var blue: Component
 	
 	/// the alpha component, out of 255 (255 means fully opaque)
 	/// 
 	/// N.B.: RGB components should be premultiplied with the alpha, i.e. the alpha is always the maximum component.
-	public var alpha: UInt8
+	public var alpha: Component
 	
 	/**
 	Creates a pixel with the specified premultiplied components, ranging from 0 to 255.
@@ -43,7 +45,7 @@ public struct Pixel {
 	- Parameter blue: the blue component, out of 255
 	- Parameter alpha: the alpha component, out of 255 — defaults to 255 (opaque)
 	*/
-	public init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8 = 255) {
+	public init(red: Component, green: Component, blue: Component, alpha: Component = 255) {
 		self.red = red
 		self.green = green
 		self.blue = blue
@@ -53,7 +55,7 @@ public struct Pixel {
 	/**
 	Creates a pixel with the specified **premultiplied** floating-point components, ranging from 0 to 1.
 	
-	Arguments will be clamped to `0.0...1.0` before conversion to `UInt8`; go nuts!
+	Arguments will be clamped to `0.0...1.0` before conversion to `Component`; go nuts!
 	
 	- Parameter red: the red component, from 0 to 1
 	- Parameter green: the green component, from 0 to 1
@@ -61,16 +63,16 @@ public struct Pixel {
 	- Parameter alpha: the alpha component, from 0 to 1 — defaults to 1 (opaque)
 	*/
 	public init<F: BinaryFloatingPoint>(red: F, green: F, blue: F, alpha: F = 1) {
-		self.init(red: red.clamped().uInt8,
-		          green: green.clamped().uInt8,
-		          blue: blue.clamped().uInt8,
-		          alpha: alpha.clamped().uInt8)
+		self.init(red:     red.clamped().asPixelComponent,
+		          green: green.clamped().asPixelComponent,
+		          blue:   blue.clamped().asPixelComponent,
+		          alpha: alpha.clamped().asPixelComponent)
 	}
 	
 	/**
 	Creates a pixel with the specified (**not** premultiplied) floating-point components, ranging from 0 to 1.
 	
-	Arguments will be clamped to `0.0...1.0` before conversion to `UInt8`; go nuts!
+	Arguments will be clamped to `0.0...1.0` before conversion to `Component`; go nuts!
 	
 	This initializer premultiplies the RGB components with the alpha component so you don't have to! :)
 	
@@ -80,11 +82,11 @@ public struct Pixel {
 	- Parameter alpha: the alpha component, from 0 to 1
 	*/
 	public init<F: BinaryFloatingPoint>(red: F, green: F, blue: F, premultiplyingWithAlpha alpha: F) {
-		let clamped = alpha.clamped()
-		self.init(red: (clamped * red.clamped()).uInt8,
-		          green: (clamped * green.clamped()).uInt8,
-		          blue: (clamped * blue.clamped()).uInt8,
-		          alpha: clamped.uInt8)
+		let clampedAlpha = alpha.clamped()
+		self.init(red:   clampedAlpha * red.clamped(),
+		          green: clampedAlpha * green.clamped(),
+		          blue:  clampedAlpha * blue.clamped(),
+		          alpha: clampedAlpha)
 	}
 }
 
@@ -104,7 +106,7 @@ extension FloatingPoint {
 }
 
 extension BinaryFloatingPoint {
-	var uInt8: UInt8 {
-		return UInt8((255 * self).rounded())
+	var asPixelComponent: Pixel.Component {
+		return Pixel.Component((255 * self).rounded())
 	}
 }
