@@ -42,11 +42,23 @@ public class Bitmap {
 		                    bitmapInfo: Bitmap.bitmapInfo)!
 	}
 	
-	/// Initializes a bitmap of the specified width and height
+	/// Initializes a bitmap of the specified width and height, filled with a single color.
 	/// 
 	/// - Parameter base: the color to initially fill the bitmap with; defaults to `Pixel.clear`
 	public convenience init(width: Int, height: Int, filledWith base: Pixel = .clear) {
-		self.init(width: width, height: height, pixels: .init(repeating: base, count: width * height))!
+		self.init(width: width, height: height, pixels: Array(repeating: base, count: width * height))!
+	}
+	
+	/// Initializes a bitmap of the specified width and height, consulting your custom closure for each pixel.
+	/// 
+	/// - Parameter generator: This closure is queried for every position in the bitmap and its result is used in the specified slot
+	public convenience init(width: Int, height: Int, using generator: (_ x: Int, _ y: Int) throws -> Pixel) rethrows {
+		let pixels = try (0..<height).flatMap { y in
+			try (0..<width).map { x in
+				try generator(x, y)
+			}
+		}
+		self.init(width: width, height: height, pixels: pixels)!
 	}
 	
 	/// Access the pixel at the specified x and y coordinates
@@ -59,16 +71,17 @@ public class Bitmap {
 		}
 	}
 	
+	/// Size of the bitmap, as a `CGSize` for your convenience
 	public var size: CGSize {
 		return CGSize(width: width, height: height)
 	}
 	
-	/// Bitmap -> CGImage
+	/// Creates an image from the bitmap, using its underlying data.
 	public func cgImage() -> CGImage {
 		return context.makeImage()!
 	}
 	
-	/// CGImage -> Bitmap
+	/// Creates a new bitmap from the given image.
 	public convenience init?(from cgImage: CGImage) {
 		self.init(width: cgImage.width, height: cgImage.height)
 		
@@ -85,5 +98,27 @@ public class Bitmap {
 	*/
 	public func withContext<Result>(do block: (_ context: CGContext) -> Result) -> Result {
 		return block(context)
+	}
+	
+	/// creates and returns a new copy of this bitmap
+	public func copy() -> Bitmap {
+		return Bitmap(width: width, height: height, pixels: pixels)!
+	}
+	
+	/**
+	Maps `transform` over all pixels, returning a row-major matrix of the mapped pixels (pixels on the same line are congiuous in memory)
+	
+	- Parameter transform: The transformation to apply to every pixel
+	*/
+	public func map<T>(_ transform: (Pixel) -> T) -> [[T]] {
+		return stride(from: 0, to: pixels.count, by: width).map { offset -> [T] in
+			pixels[offset ..< offset + width].map(transform)
+		}
+	}
+}
+
+extension CGContext {
+	public func draw(_ bitmap: Bitmap, at point: CGPoint = .zero) {
+		self.draw(bitmap.cgImage(), in: CGRect(origin: point, size: bitmap.size))
 	}
 }
