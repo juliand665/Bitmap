@@ -49,6 +49,7 @@ public class Bitmap {
 		self.init(width: width, height: height, pixels: Array(repeating: base, count: width * height))!
 	}
 	
+	// TODO this is apparently slow af
 	/// Initializes a bitmap of the specified width and height, consulting your custom closure for each pixel.
 	/// 
 	/// - Parameter generator: This closure is queried for every position in the bitmap and its result is used in the specified slot
@@ -82,7 +83,7 @@ public class Bitmap {
 	}
 	
 	/// Creates a new bitmap from the given image.
-	public convenience init?(from cgImage: CGImage) {
+	public convenience init(from cgImage: CGImage) {
 		self.init(width: cgImage.width, height: cgImage.height)
 		
 		context.draw(cgImage, in: CGRect(origin: .zero, size: size))
