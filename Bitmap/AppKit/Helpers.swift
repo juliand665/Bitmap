@@ -15,7 +15,7 @@ extension Pixel {
 		          alpha: nsColor.alphaComponent)
 	}
 	
-	public init?(_ cgColor: CGColor) {
+	public init(_ cgColor: CGColor) {
 		self.init(NSColor(cgColor: cgColor)!)
 	}
 }

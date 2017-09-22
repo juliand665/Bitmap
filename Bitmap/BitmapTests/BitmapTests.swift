@@ -20,9 +20,9 @@ class BitmapTests: XCTestCase {
 	4. Makes sure the two bitmaps are equal
 	*/
 	func testSymmetry() {
-		let bitmap = generateRandom()
+		let bitmap = generateRandom(quickly: false)
 		let encoded = bitmap.cgImage()
-		let decoded = Bitmap(from: encoded)!
+		let decoded = Bitmap(from: encoded)
 		XCTAssertEqual(bitmap.pixels, decoded.pixels)
 	}
 	
@@ -33,58 +33,44 @@ class BitmapTests: XCTestCase {
 				let cgImage = bitmap.cgImage()
 				let nsImage = NSImage(cgImage: cgImage, size: .zero)
 				let rep = nsImage.tiffRepresentation!
-				let newImage = NSImage(data: rep)
-//				print(i)
+				_ = NSImage(data: rep)
 			}
-			print("done!")
 		}
 	}
 	
-	func _testPerformance1() {
-		var bitmap: Bitmap!
-		measure {
-			for i in 1...1 {
-				print(i)
-				bitmap = generateRandom(width: 1280, height: 720)
-			}
-			print("done!")
-		}
-		let cgImage = bitmap.cgImage()
-		let nsImage = NSImage(cgImage: cgImage, size: .zero)
-		print(nsImage.size)
+	func testFromPixels() {
+		XCTAssertNil(Bitmap(width: 3, height: 2, pixels: []))
+		XCTAssertNil(Bitmap(width: 3, height: 2, pixels: [.red, .green, .blue, .cyan, .magenta, .yellow, .black, .white, .clear]))
+		XCTAssertNotNil(Bitmap(width: 3, height: 3, pixels: [.red, .green, .blue, .cyan, .magenta, .yellow, .black, .white, .clear]))
 	}
 	
-	func _testPerformance2() {
-		let bitmap = generateRandom(width: 1280, height: 720)
-		var cgImage: CGImage!
-		measure {
-			for i in 1...10000 {
-				print(i)
-				cgImage = bitmap.cgImage()
-			}
-			print("done!")
+	func testFill() {
+		let color = #colorLiteral(red: 0.5450980392, green: 0.007843137255, blue: 0.1294117647, alpha: 1).cgColor
+		let fast = Bitmap(width: 256, height: 128, filledWith: Pixel(color))
+		let slow = Bitmap(width: 256, height: 128)
+		slow.withContext { (context) -> Void in
+			context.setFillColor(color)
+			context.setLineWidth(0)
+			context.fill(CGRect(origin: .zero, size: slow.size))
 		}
-		let nsImage = NSImage(cgImage: cgImage, size: .zero)
-		print(nsImage.size)
+		XCTAssert(fast.pixels == slow.pixels)
 	}
 	
-	func _testPerformance3() {
-		let bitmap = generateRandom(width: 1280, height: 720)
-		let cgImage = bitmap.cgImage()
-		var nsImage: NSImage!
-		measure {
-			for i in 1...10000 {
-				print(i)
-				nsImage = NSImage(cgImage: cgImage, size: .zero)
-			}
-			print("done!")
-		}
-		print(nsImage.size)
+	func testCopy() {
+		let bitmap = generateRandom()
+		XCTAssert(bitmap.pixels == bitmap.copy().pixels)
+	}
+	
+	func testDrawing() {
+		let first = generateRandom()
+		let second = generateRandom()
+		second.withContext { $0.draw(first) }
+		XCTAssert(first.pixels == second.pixels)
 	}
 	
 	/// generates a random bitmap
-	func generateRandom(width: Int = 512, height: Int = 384) -> Bitmap {
-		return Bitmap(width: width, height: height) { (_, _) in fastRandomPixel() }
+	func generateRandom(width: Int = 512, height: Int = 384, quickly: Bool = true) -> Bitmap {
+		return Bitmap(width: width, height: height) { (_, _) in quickly ? fastRandomPixel() : slowRandomPixel() }
 	}
 	
 	func fastRandomPixel() -> Pixel {

@@ -115,6 +115,7 @@ extension FloatingPoint {
 
 extension BinaryFloatingPoint {
 	var asPixelComponent: Pixel.Component {
-		return Pixel.Component((255 * self).rounded())
+		let rounded = (255 * self).rounded()
+		return (rounded as? CGFloat).map(UInt8.init) ?? UInt8(rounded) // calls a different UInt8.init for CGFloats because otherwise we get a runtime crash >_<
 	}
 }
