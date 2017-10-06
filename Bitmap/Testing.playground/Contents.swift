@@ -11,7 +11,7 @@ import PlaygroundSupport
 //: 
 //: ### (well, almost)
 let dickbutt = #imageLiteral(resourceName: "dickbutt.png").cgImage(forProposedRect: nil, context: nil, hints: nil)!
-let bitmap = Bitmap(from: dickbutt)!
+let bitmap = Bitmap(from: dickbutt)
 //: Please excuse the fact that playgrounds are *slow af.*
 //: The inner part will be executated 65'536 times in total.
 for y in 0..<bitmap.height {
