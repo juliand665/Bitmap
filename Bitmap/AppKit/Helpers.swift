@@ -12,7 +12,7 @@ extension Pixel {
 		self.init(red:   nsColor.redComponent,
 		          green: nsColor.greenComponent,
 		          blue:  nsColor.blueComponent,
-		          alpha: nsColor.alphaComponent)
+		          premultiplyingWithAlpha: nsColor.alphaComponent)
 	}
 	
 	public init(_ cgColor: CGColor) {
