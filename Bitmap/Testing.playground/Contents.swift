@@ -13,7 +13,7 @@ import PlaygroundSupport
 let dickbutt = #imageLiteral(resourceName: "dickbutt.png").cgImage(forProposedRect: nil, context: nil, hints: nil)!
 let bitmap = Bitmap(from: dickbutt)
 //: Please excuse the fact that playgrounds are *slow af.*
-//: The inner part will be executated 65'536 times in total.
+//: The inner part will be executed 65'536 times in total.
 for y in 0..<bitmap.height {
 	for x in 0..<bitmap.width {
 		if case 1...254 = bitmap[x, y].alpha {
