@@ -16,7 +16,7 @@ extension Pixel {
 	
 	There is some loss of information, e.g. a fully transparent red pixel loses information about its color due to alpha premultiplication. For fully transparent pixels, this method returns a fully transparent black color (`r=g=b=a=0`).
 	*/
-	var uiColor: UIColor {
+	public var uiColor: UIColor {
 		guard self.alpha > 0 else { return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0) }
 		let alpha = CGFloat(self.alpha) // stupid premultiplication
 		let color = UIColor(red:   CGFloat(red)   / alpha,
