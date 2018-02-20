@@ -1,10 +1,3 @@
-//
-//  Bitmap.swift
-//  Bitmap
-//
-//  Created by Julian Dunskus on 31.08.17.
-//
-
 import CoreGraphics
 
 // 'ere be horrible CoreGraphics APIs

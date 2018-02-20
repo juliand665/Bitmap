@@ -1,10 +1,3 @@
-//
-//  Helpers.swift
-//  Bitmap
-//
-//  Created by Julian Dunskus on 02.09.17.
-//
-
 import UIKit
 
 extension Pixel {

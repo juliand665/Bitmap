@@ -1,10 +1,3 @@
-//
-//  Helpers.swift
-//  Bitmap macOS
-//
-//  Created by Julian Dunskus on 02.09.17.
-//
-
 import Cocoa
 
 extension Pixel {

@@ -1,10 +1,3 @@
-//
-//  BitmapTests.swift
-//  BitmapTests
-//
-//  Created by Julian Dunskus on 03.09.17.
-//
-
 import XCTest
 import AppKit
 
