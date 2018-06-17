@@ -91,6 +91,10 @@ public class Bitmap {
 	- Parameter context: A context referencing the bitmap's underlying data. Anything you do to this context will be reflected in the bitmap automagically.
 	*/
 	public func withContext<Result>(do block: (_ context: CGContext) throws -> Result) rethrows -> Result {
+		context.saveGState()
+		defer {
+			context.restoreGState()
+		}
 		return try block(context)
 	}
 	
