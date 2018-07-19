@@ -10,8 +10,8 @@ import PlaygroundSupport
 //: ## "Edge Detection"
 //: 
 //: ### (well, almost)
-let dickbutt = #imageLiteral(resourceName: "dickbutt.png").cgImage(forProposedRect: nil, context: nil, hints: nil)!
-let bitmap = Bitmap(from: dickbutt)
+let image = #imageLiteral(resourceName: "swift logo 500w.png").cgImage(forProposedRect: nil, context: nil, hints: nil)!
+let bitmap = Bitmap(from: image)
 //: Please excuse the fact that playgrounds are *slow af.*
 //: The inner part will be executed 65'536 times in total.
 for y in 0..<bitmap.height {
@@ -23,8 +23,7 @@ for y in 0..<bitmap.height {
 		}
 	}
 }
-bitmap
-//try saveImageToDesktop(bitmap.cgImage(), named: "dickbutt_processed.png")
+try saveImageToDesktop(bitmap.cgImage(), named: "processed image.png")
 //: ***
 //: 
 //: ## Generating Gradients

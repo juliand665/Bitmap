@@ -11,6 +11,20 @@ public func saveImageToDesktop(_ image: CGImage, named name: String) throws {
 	try data!.write(to: url)
 }
 
+extension Bitmap {
+	public func markEdges(as color: Pixel) {
+		for y in 0..<height {
+			for x in 0..<width {
+				if case 1...254 = self[x, y].alpha {
+					self[x, y] = color
+				} else {
+					self[x, y] = .clear
+				}
+			}
+		}
+	}
+}
+
 public func generateMoiré(width: Int = 128, height: Int = 128) -> Bitmap {
 	let bitmap = Bitmap(width: width, height: height)
 	for y in 0..<height {
