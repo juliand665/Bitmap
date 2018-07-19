@@ -1,7 +1,5 @@
 import CoreGraphics
 
-// 'ere be horrible CoreGraphics APIs
-
 public class Bitmap {
 	static let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
 	static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
@@ -26,13 +24,16 @@ public class Bitmap {
 		self.width = width
 		self.height = height
 		self.pixels = pixels
-		context = CGContext(data: &self.pixels,
-		                    width: width,
-		                    height: height,
-		                    bitsPerComponent: 8 * Bitmap.componentSize,
-		                    bytesPerRow: width * Bitmap.pixelSize,
-		                    space: Bitmap.rgbColorSpace,
-		                    bitmapInfo: Bitmap.bitmapInfo)!
+		
+		context = CGContext(
+			data: &self.pixels,
+			width: width,
+			height: height,
+			bitsPerComponent: 8 * Bitmap.componentSize,
+			bytesPerRow: width * Bitmap.pixelSize,
+			space: Bitmap.rgbColorSpace,
+			bitmapInfo: Bitmap.bitmapInfo
+			)!
 	}
 	
 	/// Initializes a bitmap of the specified width and height, filled with a single color.
