@@ -30,14 +30,15 @@ for y in 0..<bitmap.height {
 	}
 }
 ```
+
 <table>
   <tr align="center">
     <td>turns this</td>
     <td>into this</td>
   </tr>
   <tr>
-    <td><img src=Images/swift.png /></td>
-    <td><img src=Images/swift_processed.png /></td>
+    <td><img width=200 src=Images/swift.png /></td>
+    <td><img width=200 src=Images/swift_processed.png /></td>
   </tr>
 </table>
 
