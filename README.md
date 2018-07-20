@@ -1,13 +1,20 @@
-# Bitmap
-Easy low-overhead access to individual pixels.
+<p align="center">
+	<img width=192px src="Images/logo.png" /><br><br>
+	<a href="https://swift.org">
+		<img alt="Swift 4.1" src="https://img.shields.io/badge/swift-4.1-orange.svg" />
+	</a>
+	<a href="./LICENSE">
+		<img alt="MIT licensed" src="https://img.shields.io/badge/license-MIT-blue.svg" />
+	</a>
+	<img alt="Carthage compatible" src="https://img.shields.io/badge/carthage-compatible-brightgreen.svg" />
+</p>
 
-***
+# Bitmap
+###### Easy low-overhead access to individual pixels.
 
 Bitmap uses low-level data pointers to reduce overhead in working with `CGImage`.
 
 It allows you to get and set pixels directly through a 2-argument subscript.
-
-***
 
 ### Example:
 
