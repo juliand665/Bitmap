@@ -1,7 +1,7 @@
 <p align="center">
 	<img width=192px src="Images/logo.png" /><br><br>
 	<a href="https://swift.org">
-		<img alt="Swift 4.1" src="https://img.shields.io/badge/swift-4.1-orange.svg" />
+		<img alt="Swift 4.2" src="https://img.shields.io/badge/swift-4.2-orange.svg" />
 	</a>
 	<a href="./LICENSE">
 		<img alt="MIT licensed" src="https://img.shields.io/badge/license-MIT-blue.svg" />
