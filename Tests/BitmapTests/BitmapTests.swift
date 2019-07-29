@@ -1,9 +1,16 @@
 import XCTest
-import AppKit
-
 @testable import Bitmap
 
-class BitmapTests: XCTestCase {
+final class BitmapTests: XCTestCase {
+    static var allTests = [
+        ("symmetry", testSymmetry),
+        ("performance", testPerformance),
+        ("from pixels", testFromPixels),
+        ("fill", testFill),
+        ("copy", testCopy),
+        ("drawing", testDrawing),
+    ]
+	
 	/**
 	Tests symmetry of encoding/decoding in the following way:
 	

@@ -1,3 +1,4 @@
+#if canImport(Cocoa)
 import Cocoa
 
 extension Pixel {
@@ -27,3 +28,4 @@ extension Pixel {
 		return color
 	}
 }
+#endif

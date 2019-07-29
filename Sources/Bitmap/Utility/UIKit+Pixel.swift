@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 extension Pixel {
@@ -26,3 +27,4 @@ extension Pixel {
 		return color
 	}
 }
+#endif
