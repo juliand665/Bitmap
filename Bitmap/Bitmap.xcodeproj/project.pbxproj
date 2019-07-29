@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95708FCD21A648280032A10E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9589CEC21F5B1A4700E05C8B /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		9589CEC61F5B1A5500E05C8B /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		95B945FD1F587489008D038A /* Bitmap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bitmap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		95708FCC21A648280032A10E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				95708FCD21A648280032A10E /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9589CEC01F5B1A0800E05C8B /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +133,7 @@
 				95B946261F5874BA008D038A /* Bitmap tvOS */,
 				95E3341C1F5B78210025D5EB /* BitmapTests */,
 				95B945FE1F587489008D038A /* Products */,
+				95708FCC21A648280032A10E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
