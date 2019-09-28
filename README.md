@@ -1,8 +1,8 @@
 <p align="center">
 	<img width=192px src="Images/logo.png" /><br><br>
-  <a href="https://swift.org/package-manager/">
+	<a href="https://swift.org/package-manager/">
 		<img alt="Swift Package Manager compatible" src="https://img.shields.io/badge/swift_package_manager-compatible-brightgreen.svg" />
-  </a>
+	</a>
 	<a href="./LICENSE">
 		<img alt="MIT licensed" src="https://img.shields.io/badge/license-MIT-blue.svg" />
 	</a>
@@ -16,7 +16,7 @@ Bitmap uses low-level data pointers to reduce overhead in working with `CGImage`
 
 It allows you to get and set pixels directly through a 2-argument subscript, as well as offering various bulk creation/modification operations.
 
-### Example:
+### Example
 
 Identify pixels that are neither fully opaque nor fully transparent and turn them red, clearing the rest.
 
