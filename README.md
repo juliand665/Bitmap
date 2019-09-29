@@ -1,5 +1,5 @@
 <p align="center">
-	<img width=192px src="Images/logo.png" /><br><br>
+	<img width=192px src="GitHub/logo.png" /><br><br>
 	<a href="https://swift.org/package-manager/">
 		<img alt="Swift Package Manager compatible" src="https://img.shields.io/badge/swift_package_manager-compatible-brightgreen.svg" />
 	</a>
@@ -38,8 +38,8 @@ for y in 0..<bitmap.height {
     <td>into this</td>
   </tr>
   <tr>
-    <td><img width=200 src=Images/swift.png /></td>
-    <td><img width=200 src=Images/swift_processed.png /></td>
+    <td><img width=200 src=GitHub/swift.png /></td>
+    <td><img width=200 src=GitHub/swift_processed.png /></td>
   </tr>
 </table>
 
