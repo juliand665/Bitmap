@@ -3,10 +3,12 @@ import Cocoa
 
 extension Pixel {
 	public init(_ nsColor: NSColor) {
-		self.init(red:   nsColor.redComponent,
-		          green: nsColor.greenComponent,
-		          blue:  nsColor.blueComponent,
-		          premultiplyingWithAlpha: nsColor.alphaComponent)
+		self.init(
+			red: nsColor.redComponent,
+			green: nsColor.greenComponent,
+			blue: nsColor.blueComponent,
+			premultiplyingWithAlpha: nsColor.alphaComponent
+		)
 	}
 	
 	public init(_ cgColor: CGColor) {
@@ -21,10 +23,12 @@ extension Pixel {
 	public var nsColor: NSColor {
 		guard self.alpha > 0 else { return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) }
 		let alpha = CGFloat(self.alpha) // stupid premultiplication
-		let color = NSColor(red:   CGFloat(red)   / alpha,
-							green: CGFloat(green) / alpha,
-							blue:  CGFloat(blue)  / alpha,
-							alpha: alpha / 255)
+		let color = NSColor(
+			red: CGFloat(red) / alpha,
+			green: CGFloat(green) / alpha,
+			blue: CGFloat(blue) / alpha,
+			alpha: alpha / 255
+		)
 		return color
 	}
 }

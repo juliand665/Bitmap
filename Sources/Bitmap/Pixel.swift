@@ -6,15 +6,15 @@ public struct Pixel {
 	/// fully transparent
 	public static let clear = Pixel(red: 0, green: 0, blue: 0, alpha: 0)
 	
-	public static let black = Pixel(red:   0, green:   0, blue:   0)
-	public static let white = Pixel(red: 255, green: 255, blue: 255)
+	public static let black = Pixel(red: 0, green: 0, blue: 0)
+	public static let white = Pixel(red: .max, green: .max, blue: .max)
 	
-	public static let red     = Pixel(red: 255, green:   0, blue:   0)
-	public static let yellow  = Pixel(red: 255, green: 255, blue:   0)
-	public static let green   = Pixel(red:   0, green: 255, blue:   0)
-	public static let cyan    = Pixel(red:   0, green: 255, blue: 255)
-	public static let blue    = Pixel(red:   0, green:   0, blue: 255)
-	public static let magenta = Pixel(red: 255, green:   0, blue: 255)
+	public static let red = Pixel(red: .max, green: 0, blue: 0)
+	public static let yellow = Pixel(red: .max, green: .max, blue: 0)
+	public static let green = Pixel(red: 0, green: .max, blue: 0)
+	public static let cyan = Pixel(red: 0, green: .max, blue: .max)
+	public static let blue = Pixel(red: 0, green: 0, blue: .max)
+	public static let magenta = Pixel(red: .max, green: 0, blue: .max)
 	
 	/// the red component, out of 255
 	public var red: Component
@@ -31,17 +31,32 @@ public struct Pixel {
 	public var alpha: Component
 	
 	/**
-	Creates a pixel with the specified premultiplied components, ranging from 0 to 255.
+	Creates a pixel with the specified **premultiplied** components, ranging from 0 to 255.
 	
 	- Parameter red: the red component, out of 255
 	- Parameter green: the green component, out of 255
 	- Parameter blue: the blue component, out of 255
 	- Parameter alpha: the alpha component, out of 255 — defaults to 255 (opaque)
 	*/
-	public init(red: Component, green: Component, blue: Component, alpha: Component = 255) {
+	public init(red: Component, green: Component, blue: Component, alpha: Component = .max) {
 		self.red = red
 		self.green = green
 		self.blue = blue
+		self.alpha = alpha
+	}
+	
+	/**
+	Creates a pixel with the specified (**not** premultiplied) components, ranging from 0 to 255.
+	
+	- Parameter red: the red component, out of 255
+	- Parameter green: the green component, out of 255
+	- Parameter blue: the blue component, out of 255
+	- Parameter alpha: the alpha component, out of 255 — defaults to 255 (opaque)
+	*/
+	public init(red: Component, green: Component, blue: Component, premultiplyingWithAlpha alpha: Component) {
+		self.red = red * alpha / Component.max
+		self.green = green * alpha / Component.max
+		self.blue = blue * alpha / Component.max
 		self.alpha = alpha
 	}
 	
@@ -56,10 +71,12 @@ public struct Pixel {
 	- Parameter alpha: the alpha component, from 0 to 1 — defaults to 1 (opaque)
 	*/
 	public init<F: BinaryFloatingPoint>(red: F, green: F, blue: F, alpha: F = 1) {
-		self.init(cRed:    red.clamped(),
-		          green: green.clamped(),
-		          blue:   blue.clamped(),
-		          alpha: alpha.clamped())
+		self.init(
+			cRed: red.clamped(),
+			green: green.clamped(),
+			blue: blue.clamped(),
+			alpha: alpha.clamped()
+		)
 	}
 	
 	/**
@@ -76,24 +93,29 @@ public struct Pixel {
 	*/
 	public init<F: BinaryFloatingPoint>(red: F, green: F, blue: F, premultiplyingWithAlpha alpha: F) {
 		let clampedAlpha = alpha.clamped()
-		self.init(cRed:  clampedAlpha * red.clamped(),
-		          green: clampedAlpha * green.clamped(),
-		          blue:  clampedAlpha * blue.clamped(),
-		          alpha: clampedAlpha)
+		self.init(
+			cRed: clampedAlpha * red.clamped(),
+			green: clampedAlpha * green.clamped(),
+			blue: clampedAlpha * blue.clamped(),
+			alpha: clampedAlpha
+		)
 	}
 	
 	/// initialize from already clamped values
 	private init<F: BinaryFloatingPoint>(cRed red: F, green: F, blue: F, alpha: F) {
-		self.init(red:     red.asPixelComponent,
-		          green: green.asPixelComponent,
-		          blue:   blue.asPixelComponent,
-		          alpha: alpha.asPixelComponent)
+		self.init(
+			red: red.asPixelComponent,
+			green: green.asPixelComponent,
+			blue: blue.asPixelComponent,
+			alpha: alpha.asPixelComponent
+		)
 	}
 }
 
 extension Pixel: Equatable {
 	public static func ==(lhs: Pixel, rhs: Pixel) -> Bool {
-		return lhs.red == rhs.red
+		true
+			&& lhs.red == rhs.red
 			&& lhs.green == rhs.green
 			&& lhs.blue == rhs.blue
 			&& lhs.alpha == rhs.alpha
@@ -102,7 +124,7 @@ extension Pixel: Equatable {
 
 extension FloatingPoint {
 	func clamped(to bounds: (min: Self, max: Self) = (0, 1)) -> Self {
-		return .minimum(bounds.max, .maximum(bounds.min, self))
+		.minimum(bounds.max, .maximum(bounds.min, self))
 	}
 }
 

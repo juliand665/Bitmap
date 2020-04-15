@@ -20,10 +20,12 @@ extension Pixel {
 	public var uiColor: UIColor {
 		guard self.alpha > 0 else { return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0) }
 		let alpha = CGFloat(self.alpha) // stupid premultiplication
-		let color = UIColor(red:   CGFloat(red)   / alpha,
-							green: CGFloat(green) / alpha,
-							blue:  CGFloat(blue)  / alpha,
-							alpha: alpha / 255)
+		let color = UIColor(
+			red:   CGFloat(red)   / alpha,
+			green: CGFloat(green) / alpha,
+			blue:  CGFloat(blue)  / alpha,
+			alpha: alpha / 255
+		)
 		return color
 	}
 }

@@ -1,10 +1,10 @@
 import CoreGraphics
 
 public class Bitmap {
-	static let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-	static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
-	static let componentSize = MemoryLayout<Pixel.Component>.size
-	static let pixelSize = MemoryLayout<Pixel>.size
+	private static let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+	private static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+	private static let componentSize = MemoryLayout<Pixel.Component>.size
+	private static let pixelSize = MemoryLayout<Pixel>.size
 	
 	/// the bitmap's underlying data
 	public private(set) var pixels: [Pixel]
@@ -25,7 +25,7 @@ public class Bitmap {
 		self.height = height
 		self.pixels = pixels
 		
-		context = CGContext(
+		context = (CGContext(
 			data: &self.pixels,
 			width: width,
 			height: height,
@@ -33,7 +33,7 @@ public class Bitmap {
 			bytesPerRow: width * Bitmap.pixelSize,
 			space: Bitmap.rgbColorSpace,
 			bitmapInfo: Bitmap.bitmapInfo
-			)!
+		))!
 	}
 	
 	/// Initializes a bitmap of the specified width and height, filled with a single color.
@@ -58,22 +58,18 @@ public class Bitmap {
 	
 	/// Access the pixel at the specified x and y coordinates
 	public subscript(x: Int, y: Int) -> Pixel {
-		get {
-			return pixels[x + y * width]
-		}
-		set {
-			pixels[x + y * width] = newValue
-		}
+		get { pixels[x + y * width] }
+		set { pixels[x + y * width] = newValue }
 	}
 	
 	/// Size of the bitmap, as a `CGSize` for your convenience
 	public var size: CGSize {
-		return CGSize(width: width, height: height)
+		CGSize(width: width, height: height)
 	}
 	
 	/// Creates an image from the bitmap, using its underlying data.
 	public func cgImage() -> CGImage {
-		return context.makeImage()!
+		context.makeImage()!
 	}
 	
 	/// Creates a new bitmap from the given image.
@@ -101,7 +97,7 @@ public class Bitmap {
 	
 	/// creates and returns a new copy of this bitmap
 	public func copy() -> Bitmap {
-		return Bitmap(width: width, height: height, pixels: pixels)!
+		Bitmap(width: width, height: height, pixels: pixels)!
 	}
 	
 	/**
@@ -110,7 +106,7 @@ public class Bitmap {
 	- Parameter transform: The transformation to apply to every pixel
 	*/
 	public func map<T>(_ transform: (Pixel) -> T) -> [[T]] {
-		return stride(from: 0, to: pixels.count, by: width).map { offset -> [T] in
+		stride(from: 0, to: pixels.count, by: width).map { offset -> [T] in
 			pixels[offset ..< offset + width].map(transform)
 		}
 	}
