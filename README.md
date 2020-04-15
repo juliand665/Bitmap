@@ -43,4 +43,5 @@ for y in 0..<bitmap.height {
   </tr>
 </table>
 
-
+For more examples, please take a look at [the unit tests](https://github.com/juliand665/Bitmap/blob/master/Tests/BitmapTests/BitmapTests.swift).
+All non-trivial public endpoints have documentation attached too, so it shouldn't be too hard to figure out how everything works if you just play around a little.
